@@ -1,0 +1,7 @@
+.cproject
+.project
+build/
+bin/
+*.swp
+lib/
+src/utils/ProtoPaths.h
