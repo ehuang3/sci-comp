@@ -1,11 +1,11 @@
 #pragma once
 
-template <class DerivedM, class DerivedV>
-void forw_sub(const MatrixBase<DerivedM>& L, const MatrixBase<DerivedV>& b,
-	          MatrixBase<DerivedV> const & x) {
-	typedef typename DerivedM::Scalar Scalar;
+template <typename DerivedL, typename Derivedb, typename Derivedx>
+void forw_sub(const MatrixBase<DerivedL>& L, const MatrixBase<Derivedb>& b,
+	          MatrixBase<Derivedx> const & x) {
+	typedef typename DerivedL::Scalar Scalar;
 
-	MatrixBase<DerivedV>& x_ = const_cast< MatrixBase<DerivedV>& >(x);
+	MatrixBase<Derivedx>& x_ = const_cast< MatrixBase<Derivedx>& >(x);
 
 	for(int i=0; i < L.rows(); i++) {
 		Scalar s = b(i);
@@ -16,12 +16,12 @@ void forw_sub(const MatrixBase<DerivedM>& L, const MatrixBase<DerivedV>& b,
 	}
 }
 
-template <typename DerivedM, typename DerivedV>
-void back_sub(const MatrixBase<DerivedM>& U, const MatrixBase<DerivedV>& b,
-	          MatrixBase<DerivedV> const & x) {
-	typedef typename DerivedM::Scalar Scalar;
+template <typename DerivedU, typename Derivedb, typename Derivedx>
+void back_sub(const MatrixBase<DerivedU>& U, const MatrixBase<Derivedb>& b,
+	          MatrixBase<Derivedx> const & x) {
+	typedef typename DerivedU::Scalar Scalar;
 
-	MatrixBase<DerivedV>& x_ = const_cast< MatrixBase<DerivedV>& >(x);
+	MatrixBase<Derivedx>& x_ = const_cast< MatrixBase<Derivedx>& >(x);
 
 	for(int i=U.rows()-1; i >= 0; i--) {
 		Scalar s = b(i);
@@ -57,14 +57,14 @@ void lu_fac(const MatrixBase<Derived>& X,
 	}
 }
 
-template <typename DerivedM, typename DerivedV>
-void gauss_elim(const MatrixBase<DerivedM>& A, const MatrixBase<DerivedV>& b,
-	            MatrixBase<DerivedV> const & x) {
+template <typename DerivedA, typename Derivedb, typename Derivedx>
+void gauss_elim(const MatrixBase<DerivedA>& A, const MatrixBase<Derivedb>& b,
+	            MatrixBase<Derivedx> const & x) {
 
-	MatrixBase<DerivedV>& x_ = const_cast< MatrixBase<DerivedV>& >(x);
-	DerivedV y_ = b; // If DerivedV is VectorXd
+	MatrixBase<Derivedx>& x_ = const_cast< MatrixBase<Derivedx>& >(x);
+	Derivedb y_(b.derived()); // If Derivedb is VectorXd
 
-	DerivedM L_, U_;
+	DerivedA L_, U_;
 	lu_fac(A, L_, U_);
 
 	forw_sub(L_, b, y_);
