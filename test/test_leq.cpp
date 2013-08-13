@@ -55,24 +55,28 @@ TEST(LEQ, LU_FAC) {
 }
 /* ********************************************************************************************* */
 TEST(LEQ, GAUSS_ELIM) {
-	MatrixXd A(10,10);
-	VectorXd x(10), b(10);
-	A.setRandom();
-	x.setOnes();
-	b = A*x;
-	VectorXd r = x;
-	gauss_elim(A,b,r);
-	ASSERT_MATRIX_EQ(x,r);
+	for(int i=0; i < 100; i++) {
+		MatrixXd A(20,20);
+		VectorXd x(20), b(20);
+		A.setRandom();
+		x.setOnes();
+		b = A*x;
+		VectorXd r = x;
+		gauss_elim(A,b,r);
+		ASSERT_MATRIX_EQ(x,r);
+	}
 }
 /* ********************************************************************************************* */
 TEST(LEQ, INV) {
-	MatrixXd A(10,10), Ainv(10,10), AAinv;
-	A.setRandom();
-	inv(A, Ainv);
-	AAinv = A*Ainv;
-	MatrixXd I = A;
-	I.setIdentity();
-	ASSERT_MATRIX_EQ(AAinv,I);
+	for(int i=0; i < 100; i++) {
+		MatrixXd A(10,10), Ainv(10,10), AAinv;
+		A.setRandom();
+		inv(A, Ainv);
+		AAinv = A*Ainv;
+		MatrixXd I = A;
+		I.setIdentity();
+		ASSERT_MATRIX_EQ(AAinv,I);
+	}
 }
 /* ********************************************************************************************* */
 int main(int argc, char* argv[]) {

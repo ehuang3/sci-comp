@@ -74,13 +74,14 @@ void gauss_elim(const MatrixBase<DerivedA>& A, const MatrixBase<Derivedb>& b,
 template <typename Derived>
 void inv(const MatrixBase<Derived>& X,
 	     MatrixBase<Derived> const & Xinv) {
-	typedef typename internal::plain_row_type<Derived>::type RowVectorType;	
 
-	MatrixBase<Derived> I_ = X;
+	Derived& Xinv_ = const_cast< Derived& >(Xinv.derived());
+	Derived I_ = X.derived();
 	I_.setIdentity();
 
-	int r = X.rows();
+	// int r = X.rows();
 	for(int i=0; i < X.cols(); i++) {
-		// gauss_elim(X, I_.block(0,i,r,1), Xinv.block(0,i,r,1));
+		// gauss_elim(X, I_.block(0,i,r,1), Xinv_.block(0,i,r,1));
+		gauss_elim(X, I_.col(i), Xinv_.col(i));
 	}
 }
